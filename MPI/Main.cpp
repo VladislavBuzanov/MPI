@@ -13,10 +13,10 @@ int main(int argc, char* argv[]) {
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
 
-    int array[numberOfLines * numberOfColumns];
+    int *array = new int[numberOfLines * numberOfColumns];
 
     if (rank == 0) {
-        printf("Матрица:\n");
+        printf("Matrix :\n");
         for (int i = 0; i < numberOfLines; i++) {
             for (int j = 0; j < numberOfColumns; ++j) {
                 array[i * numberOfColumns + j] = rand() % 10;
@@ -26,8 +26,8 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    int lengths[size];
-    int indexes[size];
+    int *lengths = new int[size];
+    int *indexes = new int[size];
     int rest = numberOfLines;
     int k = rest / size;
     lengths[0] = k * numberOfColumns;
@@ -39,7 +39,7 @@ int main(int argc, char* argv[]) {
         indexes[i] = indexes[i - 1] + lengths[i - 1];
     }
     localLength = lengths[rank];
-    int localArray[localLength];
+    int *localArray = new int[localLength];
 
     MPI_Scatterv(array, lengths, indexes, MPI_INT, localArray, localLength, MPI_INT, 0, MPI_COMM_WORLD);
 
@@ -73,8 +73,8 @@ int main(int argc, char* argv[]) {
     MPI_Reduce(&localMinMax, &minmax, 1, MPI_INT, MPI_MIN, 0, MPI_COMM_WORLD);
 
     if (rank == 0) {
-        printf("Максимальное значение из минимальных = %d\n", maxmin);
-        printf("Минимальное значение из максимальных = %d\n", minmax);
+        printf("Maximum of minimum = %d\n", maxmin);
+        printf("Minimum of maximum = %d\n", minmax);
         if (maxmin == minmax) {
             printf("MINMAX = MAXMIN");
         }
