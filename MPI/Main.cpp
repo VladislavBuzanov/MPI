@@ -24,8 +24,9 @@ int main(int argc, char* argv[]) {
         }
         printf("\n");
     }
-
-    int lengths[size], indexes[size];
+    
+    int *lengths = new int[size];
+    int *indexes = new int[size];
     int rest = N;
     int k = rest / size;
 
@@ -39,7 +40,8 @@ int main(int argc, char* argv[]) {
     }
 
     processLength = lengths[rank];
-    double processArray[processLength];
+    
+    double *processArray = new double[processLength];
 
     MPI_Scatterv(array, lengths, indexes, MPI_DOUBLE, processArray, processLength, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
