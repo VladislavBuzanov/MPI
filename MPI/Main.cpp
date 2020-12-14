@@ -59,7 +59,8 @@ void gather(int* sendBuf, int sendDataCount, MPI_Datatype sendDataType, int* rec
 
 int main(int argc, char* argv[]) {
 
-    int rank, size, N = 8, a[N];
+    int rank, size, N = 16;
+    int *a = new int[N];
 
     srand(time(NULL));
 
@@ -68,7 +69,7 @@ int main(int argc, char* argv[]) {
     MPI_Comm_size(MPI_COMM_WORLD, &size);
 
     if (rank == 0) {
-        printf("Массив:\n");
+        printf("Array :\n");
         for (int i = 0; i < N; i++) {
             a[i] = rand() % 10;
             printf("%d\t", a[i]);
@@ -76,20 +77,20 @@ int main(int argc, char* argv[]) {
         printf("\n");
     }
 
-    int localArray[N / size];
-    int exitArray[N];
+    int *localArray = new int[N / size];
+    int *exitArray = new int[N];
 
     scatter(a, N / size, MPI_INT, localArray, N / size, MPI_INT, 0, MPI_COMM_WORLD);
     gather(localArray, N / size, MPI_INT, exitArray, N / size, MPI_INT, 0, MPI_COMM_WORLD);
 
-    printf("Номер процесса =  %d | Часть массива: ", rank);
+    printf("Rank =  %d | Array part: ", rank);
     for (int i = 0; i < N / size; i++) {
         printf("%d ", localArray[i]);
     }
     printf("\n");
 
     if (rank == 0) {
-        printf("Полученный массив:\n");
+        printf("Result :\n");
         for (int j = 0; j < N; j++) {
             printf("%d\t", exitArray[j]);
         }
