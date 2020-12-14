@@ -5,7 +5,7 @@
 int main(int argc, char** argv) {
 
     int rank, size;
-    int const N = 100000;
+    int const N = 10000;
     int array[N];
     double startSend, endSend;
     MPI_Status status;
@@ -23,19 +23,19 @@ int main(int argc, char** argv) {
         MPI_Send(array, N, MPI_INT, 1, 0, MPI_COMM_WORLD);
         MPI_Recv(array, N, MPI_INT, 1, 0, MPI_COMM_WORLD, &status);
         endSend = MPI_Wtime();
-        printf("Время выполнения | Send | %f\n", endSend - startSend);
+        printf("Time Send %f\n", endSend - startSend);
 
         startSend = MPI_Wtime();
         MPI_Ssend(array, N, MPI_INT, 1, 1, MPI_COMM_WORLD);
         MPI_Recv(array, N, MPI_INT, 1, 1, MPI_COMM_WORLD, &status);
         endSend = MPI_Wtime();
-        printf("Время выполнения | SSend | %f\n", endSend - startSend);
+        printf("Time SSend %f\n", endSend - startSend);
 
         startSend = MPI_Wtime();
         MPI_Rsend(array, N, MPI_INT, 1, 3, MPI_COMM_WORLD);
         MPI_Recv(array, N, MPI_INT, 1, 3, MPI_COMM_WORLD, &status);
         endSend = MPI_Wtime();
-        printf("Время выполнения | RSend | %f\n", endSend - startSend);
+        printf("Time RSend %f\n", endSend - startSend);
 
     }
     else {
