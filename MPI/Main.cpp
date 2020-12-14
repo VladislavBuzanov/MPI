@@ -20,21 +20,21 @@ int main(int argc, char* argv[]) {
             b[i] = rand() % 10;
         }
 
-        printf("Вектор А:\n");
+        printf("Vector A:\n");
         for (int j = 0; j < N; j++) {
             printf("%.0f ", a[j]);
         }
         printf("\n");
 
-        printf("Вектор B:\n");
+        printf("Vector B:\n");
         for (int j = 0; j < N; j++) {
             printf("%.0f ", b[j]);
         }
         printf("\n");
     }
 
-    int lengths[size];
-    int indexes[size];
+    int *lengths = new int[size];
+    int *indexes = new int[size];
     int rest = N;
     int k = rest / size;
     lengths[0] = k;
@@ -47,8 +47,8 @@ int main(int argc, char* argv[]) {
     }
 
     localLength = lengths[rank];
-    double localA[localLength];
-    double localB[localLength];
+    double *localA = new double[localLength];
+    double *localB = new double[localLength];
 
     MPI_Scatterv(a, lengths, indexes, MPI_DOUBLE, localA, localLength, MPI_DOUBLE, 0, MPI_COMM_WORLD);
     MPI_Scatterv(b, lengths, indexes, MPI_DOUBLE, localB, localLength, MPI_DOUBLE, 0, MPI_COMM_WORLD);
@@ -59,7 +59,7 @@ int main(int argc, char* argv[]) {
     MPI_Reduce(&localSum, &globalSum, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
 
     if (rank == 0) {
-        printf("Результат скалярного произведения = %.0f\n", globalSum);
+        printf("Dot product result = %.0f\n", globalSum);
     }
 
     MPI_Finalize();
