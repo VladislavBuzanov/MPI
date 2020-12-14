@@ -1,8 +1,4 @@
-﻿//
-// Created by Евгений on 25.10.2020.
-//
-
-#include <mpi.h>
+﻿#include <mpi.h>
 #include <iostream>
 #include <cstdlib>
 
