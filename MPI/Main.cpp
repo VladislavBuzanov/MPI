@@ -13,12 +13,12 @@ int main(int argc, char** argv)
 
     if (rank == 0) {
         sendBuffer[0] = startNumber;
-        printf("Круг начинается | Стартовое число = %d | Преобразование: умножение на 2\n", startNumber);
+        printf("Circle starts | Begin numb = %d | Mutation: multiply on 3\n", startNumber);
         MPI_Send(sendBuffer, 1, MPI_INT, rank + 1, rank + 1, MPI_COMM_WORLD);
     }
     else {
         MPI_Recv(recieveBuffer, 1, MPI_INT, rank - 1, rank, MPI_COMM_WORLD, &status);
-        sendBuffer[0] = 2 * recieveBuffer[0];
+        sendBuffer[0] = 3 * recieveBuffer[0];
 
         if (rank != size - 1)
             MPI_Send(sendBuffer, 1, MPI_INT, rank + 1, rank + 1, MPI_COMM_WORLD);
@@ -28,7 +28,7 @@ int main(int argc, char** argv)
 
     if (rank == 0) {
         MPI_Recv(recieveBuffer, 1, MPI_INT, size - 1, 0, MPI_COMM_WORLD, &status);
-        printf("Круг завершился | Число после преобразований = %d\n", recieveBuffer[0]);
+        printf("Circle ended | Mutation count = %d\n", recieveBuffer[0]);
     }
 
     MPI_Finalize();
