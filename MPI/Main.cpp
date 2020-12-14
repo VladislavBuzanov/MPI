@@ -28,7 +28,7 @@ int main(int argc, char** argv)
 
     if (rank == 0) {
         MPI_Recv(recieveBuffer, 1, MPI_INT, size - 1, 0, MPI_COMM_WORLD, &status);
-        printf("Circle ended | Mutation count = %d\n", recieveBuffer[0]);
+        printf("Circle ended | Result = %d\n", recieveBuffer[0]);
     }
 
     MPI_Finalize();
