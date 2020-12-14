@@ -31,13 +31,6 @@ int main(int argc, char** argv) {
         endSend = MPI_Wtime();
         printf("Время выполнения | SSend | %f\n", endSend - startSend);
 
-    //   startSend = MPI_Wtime();
-    //   MPI_Buffer_attach(array, N * size * 2 + MPI_BSEND_OVERHEAD * size * 2);
-    //   MPI_Bsend(array, N, MPI_INT, 1, 2, MPI_COMM_WORLD);
-    //   MPI_Recv(array, N, MPI_INT, 1, 2, MPI_COMM_WORLD, &status);
-    //   endSend = MPI_Wtime();
-    //   printf("Время выполнения | BSend | %f\n", endSend - startSend);
-
         startSend = MPI_Wtime();
         MPI_Rsend(array, N, MPI_INT, 1, 3, MPI_COMM_WORLD);
         MPI_Recv(array, N, MPI_INT, 1, 3, MPI_COMM_WORLD, &status);
@@ -51,10 +44,6 @@ int main(int argc, char** argv) {
 
         MPI_Recv(array, N, MPI_INT, 0, 1, MPI_COMM_WORLD, &status);
         MPI_Ssend(array, N, MPI_INT, 0, 1, MPI_COMM_WORLD);
-
-    //    MPI_Recv(array, N, MPI_INT, 0, 2, MPI_COMM_WORLD, &status);
-    //    MPI_Buffer_attach(array, N * size * 2 + MPI_BSEND_OVERHEAD * size * 2);
-    //    MPI_Bsend(array, N, MPI_INT, 0, 2, MPI_COMM_WORLD);
 
         MPI_Recv(array, N, MPI_INT, 0, 3, MPI_COMM_WORLD, &status);
         MPI_Rsend(array, N, MPI_INT, 0, 3, MPI_COMM_WORLD);
